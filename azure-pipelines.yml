@@ -15,21 +15,19 @@ stages:
   - job: FirstJob
     steps:
       - bash: echo Hi Sudarshan You Build First Job
+      - bash: echo $(Build.BuildNumber)
+      - bash: echo $(Build.BuildId)
+      - bash: echo $(Build.SourceBranchName)
+      - bash: echo $(Build.SourcesDirectory)
+      - bash: echo $(System.DefaultWorkingDirectory)
+      - bash: ls -R $(System.DefaultWorkingDirectory)
+      - bash: echo $(Build.ArtifactStagingDirectory)
+      - bash: ls -R $(Build.ArtifactStagingDirectory)
+      - task: CopyFiles@2
+        inputs:
+          SourceFolder: '$(System.DefaultWorkingDirectory)'
+          Contents: '**/*.json'
+          TargetFolder: 'Build.ArtifactStagingDirectory'
   - job: SecondJob
     steps:
       - bash: echo Hi Guys Second Job is done
-- stage: DevDeploy
-  jobs:
-  - job: DevDeployJob
-    steps:
-      - bash: echo DevDeploy Job
-- stage: QADeploy
-  jobs:
-  - job: QADeployJob
-    steps:
-      - bash: echo QADeploy Job
-- stage: ProdDeploy
-  jobs:
-  - job: ProdDeployJob
-    steps:
-      - bash: echo ProdDeploy Job
